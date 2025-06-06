@@ -14,8 +14,7 @@ export default function Quiz() {
   const [answers, setAnswers] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(90 * 60);
-
+  const [timeLeft, setTimeLeft] = useState(60 * 60);
 
   // Cập nhật thời gian còn lại mỗi giây và lưu vào localStorage
   useEffect(() => {
@@ -95,26 +94,26 @@ export default function Quiz() {
   //   };
   // }, []);
 
-  // useEffect(() => {
-  //   const handleBlur = () => {
-  //     alert("Không được rời khỏi trang! Bạn đã vi phạm quy định.");
-  //     // Optionally: window.location.href = "/logout" hoặc show modal
-  //   };
+  useEffect(() => {
+    const handleBlur = () => {
+      alert("Không được rời khỏi trang! Bạn đã vi phạm quy định.");
+      // Optionally: window.location.href = "/logout" hoặc show modal
+    };
 
-  //   const handleVisibilityChange = () => {
-  //     if (document.visibilityState === "hidden") {
-  //       alert("Bạn đang chuyển tab! Hành động này không được phép.");
-  //     }
-  //   };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        alert("Bạn đang chuyển tab! Hành động này không được phép.");
+      }
+    };
 
-  //   window.addEventListener("blur", handleBlur);
-  //   document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("blur", handleBlur);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
-  //   return () => {
-  //     window.removeEventListener("blur", handleBlur);
-  //     document.removeEventListener("visibilitychange", handleVisibilityChange);
-  //   };
-  // }, []);
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   useEffect(() => {
     // Chặn F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S
@@ -263,9 +262,7 @@ export default function Quiz() {
               Thời gian còn lại: {formatTime(timeLeft)}
             </span>
           </div> */}
-          <div
-            className="fixed top-5 right-5 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-xl hover:shadow-[0_0_15px_4px_rgba(59,130,246,0.5)] transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 animate-heartbeat"
-          >
+          <div className="fixed top-5 right-5 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-xl hover:shadow-[0_0_15px_4px_rgba(59,130,246,0.5)] transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 animate-heartbeat">
             <span className="font-bold text-base tracking-wide drop-shadow-sm">
               Thời gian còn lại: {formatTime(timeLeft)}
             </span>
