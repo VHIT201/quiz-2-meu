@@ -23,4 +23,54 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+
+@layer utilities {
+  /* Heartbeat animation for timer */
+  .animate-heartbeat {
+    animation: heartbeat 1s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  /* Falling droplet animation */
+  .animate-fall {
+    animation: fall 2s linear forwards;
+  }
+
+  @keyframes fall {
+    0% {
+      transform: translateY(0);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(100vh); /* Fall to bottom of viewport */
+      opacity: 0; /* Fade out */
+    }
+  }
+  /* Hiệu ứng rơi cho bông tuyết */
+  .animate-snowfall {
+    animation: snowfall 6s linear forwards;
+  }
+
+  @keyframes snowfall {
+    0% {
+      transform: translateY(-10vh);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(100vh) translateX(calc(-50px + 100px * var(--random-x, 0)));
+      opacity: 0;
+    }
+  }
 }
