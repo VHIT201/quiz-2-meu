@@ -1,0 +1,26 @@
+# WEBSITE NỘI BỘ - KHÔNG CHO PHÉP INDEXING
+# Bài kiểm tra nội bộ VietProDev x MeU
+
+User-agent: *
+Disallow: /
+
+# Chặn tất cả các bot tìm kiếm
+User-agent: Googlebot
+Disallow: /
+
+User-agent: Bingbot
+Disallow: /
+
+User-agent: Slurp
+Disallow: /
+
+User-agent: DuckDuckBot
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: YandexBot
+Disallow: /
+
+# Không có sitemap cho website nội bộ
