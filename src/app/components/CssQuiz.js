@@ -36,11 +36,11 @@ export default function CssEditorCard() {
       {/* Phần mẫu kết quả (Card UI đã có CSS) */}
       <div className="flex-1 p-8 bg-gray-100 overflow-auto">
         <div className="card shadow-xl rounded-lg overflow-hidden bg-white" style={previewStyle}>
-          <img
+          {/* <img
             className="card-img w-full h-48 object-cover"
             src="https://via.placeholder.com/300x200"
             alt="Product"
-          />
+          /> */}
           <div className="card-content p-4 text-center">
             <h3 className="card-title text-xl font-bold">Product Name</h3>
             <p className="card-description text-gray-600 my-2">This is a short description of the product.</p>
@@ -54,11 +54,11 @@ export default function CssEditorCard() {
       {/* Phần giao diện chưa có CSS */}
       <div className="flex-1 p-8 bg-gray-200 border-t">
         <div className="card shadow-xl rounded-lg overflow-hidden bg-white">
-          <img
+          {/* <img
             className="card-img w-full h-48 object-cover"
             src="https://via.placeholder.com/300x200"
             alt="Product"
-          />
+          /> */}
           <div className="card-content p-4 text-center">
             <h3 className="card-title text-xl font-bold">Product Name</h3>
             <p className="card-description text-gray-600 my-2">This is a short description of the product.</p>
