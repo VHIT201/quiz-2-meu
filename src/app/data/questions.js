@@ -1,618 +1,604 @@
 const questions = [
-  // JavaScript trong React
   {
     id: 1,
-    question: "JavaScript trong React chủ yếu được sử dụng để làm gì?",
-    options: ["Tạo giao diện", "Quản lý logic và trạng thái", "Viết CSS", "Quản lý cơ sở dữ liệu"],
-    correctAnswer: 1, // Quản lý logic và trạng thái
+    question: "Which tense is used to talk about habits and general truths?",
+    options: ["Present Continuous", "Present Simple", "Past Simple", "Future Simple"],
+    correctAnswer: 1 // Present Simple
   },
   {
     id: 2,
-    question: "Kết quả của `typeof useState` trong React là gì?",
-    options: ["'function'", "'object'", "'undefined'", "'string'"],
-    correctAnswer: 0, // 'function'
+    question: "She ___ English at the moment.",
+    options: ["studies", "is studying", "studied", "has studied"],
+    correctAnswer: 1 // is studying (Present Continuous)
   },
   {
     id: 3,
-    question: "Toán tử nào trong JavaScript thường dùng để kiểm tra props trong React?",
-    options: ["==", "===", "!==", "!="],
-    correctAnswer: 1, // ===
+    question: "By the time we arrive, they ___ dinner.",
+    options: ["will eat", "will have eaten", "are eating", "eat"],
+    correctAnswer: 1 // will have eaten (Future Perfect)
   },
   {
     id: 4,
-    question: "Phương thức mảng nào thường được dùng để render danh sách trong React?",
-    options: ["forEach()", "map()", "filter()", "reduce()"],
-    correctAnswer: 1, // map()
+    question: "I ___ in London for 5 years before I moved to Paris.",
+    options: ["lived", "was living", "had lived", "have lived"],
+    correctAnswer: 2 // had lived (Past Perfect)
   },
   {
     id: 5,
-    question: "Kết quả của `[] == []` trong JavaScript là gì?",
-    options: ["true", "false", "undefined", "null"],
-    correctAnswer: 1, // false
+    question: "At this time tomorrow, we ___ on the beach.",
+    options: ["will lie", "will be lying", "are lying", "lie"],
+    correctAnswer: 1 // will be lying (Future Continuous)
   },
   {
     id: 6,
-    question: "Cú pháp nào dùng để destructuring props trong functional component?",
-    options: ["const { prop } = props", "const [prop] = props", "const prop = props{}", "const prop => props"],
-    correctAnswer: 0, // const { prop } = props
+    question: "They ___ football when it started to rain.",
+    options: ["played", "were playing", "have played", "had played"],
+    correctAnswer: 1 // were playing (Past Continuous)
   },
   {
     id: 7,
-    question: "Hàm nào ngăn sự kiện lan truyền trong React?",
-    options: ["stopPropagation()", "preventDefault()", "stopEvent()", "cancelEvent()"],
-    correctAnswer: 0, // stopPropagation()
+    question: "By next month, I ___ this project for a year.",
+    options: ["will work", "will be working", "will have been working", "am working"],
+    correctAnswer: 2 // will have been working (Future Perfect Continuous)
   },
   {
     id: 8,
-    question: "Cách xử lý `setTimeout` trong React để tránh memory leak?",
-    options: ["Không cần xử lý", "Dùng useEffect với cleanup", "Dùng trong render", "Dùng trong constructor"],
-    correctAnswer: 1, // Dùng useEffect với cleanup
+    question: "She ___ here since 2018.",
+    options: ["works", "is working", "has been working", "worked"],
+    correctAnswer: 2 // has been working (Present Perfect Continuous)
   },
   {
     id: 9,
-    question: "Kết quả của `!![]` trong JavaScript là gì?",
-    options: ["true", "false", "undefined", "null"],
-    correctAnswer: 0, // true
+    question: "When I entered the room, everyone ___ quietly.",
+    options: ["works", "worked", "was working", "has worked"],
+    correctAnswer: 2 // was working (Past Continuous)
   },
   {
     id: 10,
-    question: "Phương thức nào kiểm tra giá trị là mảng trong React?",
-    options: ["Array.isArray()", "isArray()", "typeof Array", "Array.check()"],
-    correctAnswer: 0, // Array.isArray()
+    question: "I ___ him tomorrow at 3 PM.",
+    options: ["will meet", "am meeting", "meet", "will be meeting"],
+    correctAnswer: 1 // am meeting (Present Continuous for future arrangement)
   },
   {
     id: 11,
-    question: "Hàm `bind` trong React được dùng khi nào?",
-    options: ["Gán state", "Gắn hàm xử lý sự kiện vào `this`", "Tạo component", "Quản lý props"],
-    correctAnswer: 1, // Gắn hàm xử lý sự kiện vào `this`
+    question: "This time next week, I ___ in Japan.",
+    options: ["will travel", "will be traveling", "travel", "am traveling"],
+    correctAnswer: 1 // will be traveling (Future Continuous)
   },
   {
     id: 12,
-    question: "Cú pháp nào spread props trong React?",
-    options: ["<Component ...props />", "<Component {props} />", "<Component props={...props} />", "<Component spread={props} />"],
-    correctAnswer: 0, // <Component ...props />
+    question: "He ___ three novels so far this year.",
+    options: ["wrote", "has written", "writes", "is writing"],
+    correctAnswer: 1 // has written (Present Perfect)
   },
   {
     id: 13,
-    question: "Kết quả của `'2' + 2` trong JavaScript là gì?",
-    options: ["4", "'4'", "'22'", "22"],
-    correctAnswer: 2, // '22'
+    question: "We ___ for over 6 hours when we finally stopped.",
+    options: ["drove", "were driving", "had been driving", "have been driving"],
+    correctAnswer: 2 // had been driving (Past Perfect Continuous)
   },
   {
     id: 14,
-    question: "Hàm `slice()` trong JavaScript trả về gì khi dùng trong React?",
-    options: ["Mảng mới", "Mảng gốc", "Chuỗi", "Giá trị đơn"],
-    correctAnswer: 0, // Mảng mới
+    question: "Water ___ at 100°C.",
+    options: ["boils", "is boiling", "boiled", "has boiled"],
+    correctAnswer: 0 // boils (Present Simple - general truth)
   },
   {
     id: 15,
-    question: "Cách xử lý sự kiện click trong React sử dụng JavaScript?",
-    options: ["onClick={handleClick}", "click={handleClick}", "onClick={handleClick()}", "addEventListener('click', handleClick)"],
-    correctAnswer: 0, // onClick={handleClick}
+    question: "They ___ in that house since they got married.",
+    options: ["live", "are living", "have lived", "lived"],
+    correctAnswer: 2 // have lived (Present Perfect)
   },
   {
     id: 16,
-    question: "Hàm nào chuyển chuỗi JSON thành object trong React?",
-    options: ["JSON.stringify()", "JSON.parse()", "toJSON()", "parseJSON()"],
-    correctAnswer: 1, // JSON.parse()
+    question: "Look! The bus ___ . We must run!",
+    options: ["comes", "is coming", "came", "has come"],
+    correctAnswer: 1 // is coming (Present Continuous)
   },
   {
     id: 17,
-    question: "`Promise` trong React thường dùng để làm gì?",
-    options: ["Xử lý sự kiện", "Gọi API bất đồng bộ", "Tạo component", "Quản lý state"],
-    correctAnswer: 1, // Gọi API bất đồng bộ
+    question: "I ___ my keys yesterday.",
+    options: ["lose", "lost", "have lost", "was losing"],
+    correctAnswer: 1 // lost (Past Simple)
   },
   {
     id: 18,
-    question: "Kết quả của `typeof NaN` trong JavaScript là gì?",
-    options: ["'number'", "'undefined'", "'object'", "'string'"],
-    correctAnswer: 0, // 'number'
+    question: "She ___ TV when the phone rang.",
+    options: ["watches", "watched", "was watching", "has watched"],
+    correctAnswer: 2 // was watching (Past Continuous)
   },
   {
     id: 19,
-    question: "Phương thức nào lọc danh sách trong React?",
-    options: ["map()", "filter()", "reduce()", "forEach()"],
-    correctAnswer: 1, // filter()
+    question: "By 2026, I ___ English for 10 years.",
+    options: ["will study", "will be studying", "will have been studying", "study"],
+    correctAnswer: 2 // will have been studying (Future Perfect Continuous)
   },
   {
     id: 20,
-    question: "Kết quả của `null == undefined` trong JavaScript là gì?",
-    options: ["true", "false", "null", "undefined"],
-    correctAnswer: 0, // true
+    question: "He ___ already ___ breakfast when I called.",
+    options: ["has / eaten", "had / eaten", "was / eating", "ate"],
+    correctAnswer: 1 // had / eaten (Past Perfect)
   },
-
-  // React
   {
     id: 21,
-    question: "React là gì?",
-    options: ["Framework backend", "Thư viện giao diện người dùng", "Công cụ build", "Ngôn ngữ lập trình"],
-    correctAnswer: 1, // Thư viện giao diện người dùng
+    question: "Which tense is used for actions happening right now?",
+    options: ["Present Simple", "Present Continuous", "Present Perfect", "Past Simple"],
+    correctAnswer: 1
   },
   {
     id: 22,
-    question: "JSX trong React là gì?",
-    options: ["Cú pháp mở rộng JavaScript", "Thư viện CSS", "Hàm JavaScript", "Công cụ debug"],
-    correctAnswer: 0, // Cú pháp mở rộng JavaScript
+    question: "We usually ___ to school by bus.",
+    options: ["go", "are going", "went", "have gone"],
+    correctAnswer: 0
   },
   {
     id: 23,
-    question: "React component phải trả về gì?",
-    options: ["HTML", "JSX", "CSS", "JSON"],
-    correctAnswer: 1, // JSX
+    question: "I ___ this movie three times already.",
+    options: ["saw", "have seen", "am seeing", "was seeing"],
+    correctAnswer: 1
   },
   {
     id: 24,
-    question: "React tối ưu render bằng cơ chế nào?",
-    options: ["Virtual DOM", "Real DOM", "Shadow DOM", "Direct DOM"],
-    correctAnswer: 0, // Virtual DOM
+    question: "They ___ in Spain for two months next summer.",
+    options: ["will stay", "will be staying", "are staying", "stay"],
+    correctAnswer: 1
   },
   {
     id: 25,
-    question: "Cách tạo functional component trong React?",
-    options: ["class Component {}", "function Component() {}", "const Component = () => {}", "component() {}"],
-    correctAnswer: 2, // const Component = () => {}
+    question: "When I was a child, I ___ a bicycle.",
+    options: ["have", "had", "was having", "am having"],
+    correctAnswer: 1
   },
   {
     id: 26,
-    question: "React.StrictMode dùng để làm gì?",
-    options: ["Tối ưu hiệu suất", "Kiểm tra lỗi trong phát triển", "Quản lý state", "Tạo animation"],
-    correctAnswer: 1, // Kiểm tra lỗi trong phát triển
+    question: "She ___ for the company since 2015.",
+    options: ["works", "is working", "has been working", "worked"],
+    correctAnswer: 2
   },
   {
     id: 27,
-    question: "React key trong danh sách dùng để làm gì?",
-    options: ["Tạo style", "Xác định phần tử duy nhất", "Quản lý state", "Xử lý sự kiện"],
-    correctAnswer: 1, // Xác định phần tử duy nhất
+    question: "Don't call me at 8 PM. I ___ dinner.",
+    options: ["will eat", "will be eating", "eat", "am eating"],
+    correctAnswer: 1
   },
   {
     id: 28,
-    question: "React Portal dùng để làm gì?",
-    options: ["Render ngoài DOM chính", "Quản lý state", "Tạo component", "Gọi API"],
-    correctAnswer: 0, // Render ngoài DOM chính
+    question: "He ___ the piano when suddenly the lights went out.",
+    options: ["played", "was playing", "has played", "had played"],
+    correctAnswer: 1
   },
   {
     id: 29,
-    question: "Cách import React trong file JSX?",
-    options: ["import React from 'react'", "require('react')", "import ReactDOM", "import * as React"],
-    correctAnswer: 0, // import React from 'react'
+    question: "By the end of this year, we ___ together for 20 years.",
+    options: ["will work", "will be working", "will have been working", "are working"],
+    correctAnswer: 2
   },
   {
     id: 30,
-    question: "React.Fragment dùng để làm gì?",
-    options: ["Tạo animation", "Gói nhiều phần tử không tạo node DOM", "Quản lý state", "Gọi API"],
-    correctAnswer: 1, // Gói nhiều phần tử không tạo node DOM
+    question: "I ___ never ___ Japanese food before coming to Tokyo.",
+    options: ["have / eaten", "had / eaten", "was / eating", "ate"],
+    correctAnswer: 1
   },
   {
     id: 31,
-    question: "React.memo dùng để làm gì?",
-    options: ["Tối ưu render component", "Quản lý state", "Tạo hooks", "Xử lý sự kiện"],
-    correctAnswer: 0, // Tối ưu render component
+    question: "Which tense is used for completed actions before another past action?",
+    options: ["Past Simple", "Past Continuous", "Past Perfect", "Present Perfect"],
+    correctAnswer: 2
   },
   {
     id: 32,
-    question: "React Context dùng để làm gì?",
-    options: ["Tạo component", "Chia sẻ dữ liệu giữa component", "Tạo style", "Quản lý route"],
-    correctAnswer: 1, // Chia sẻ dữ liệu giữa component
+    question: "At 9 PM last night, I ___ my homework.",
+    options: ["do", "did", "was doing", "have done"],
+    correctAnswer: 2
   },
   {
     id: 33,
-    question: "React version nào giới thiệu Hooks?",
-    options: ["16.8", "16.0", "17.0", "18.0"],
-    correctAnswer: 0, // 16.8
+    question: "We ___ to the concert tomorrow night.",
+    options: ["go", "are going", "will go", "went"],
+    correctAnswer: 1
   },
   {
     id: 34,
-    question: "Cách tạo ref trong functional component?",
-    options: ["useRef()", "createRef()", "ref()", "useReference()"],
-    correctAnswer: 0, // useRef()
+    question: "She ___ three marathons by the age of 30.",
+    options: ["ran", "has run", "had run", "was running"],
+    correctAnswer: 2
   },
   {
     id: 35,
-    question: "React component có thể trả về giá trị nào?",
-    options: ["null", "undefined", "true", "Tất cả các giá trị trên"],
-    correctAnswer: 3, // Tất cả các giá trị trên
+    question: "They ___ in the pool all afternoon yesterday.",
+    options: ["swim", "swam", "were swimming", "have swum"],
+    correctAnswer: 2
   },
   {
     id: 36,
-    question: "React Suspense dùng để làm gì?",
-    options: ["Quản lý state", "Xử lý lazy loading component", "Tạo animation", "Quản lý route"],
-    correctAnswer: 1, // Xử lý lazy loading component
+    question: "By the time he retires, he ___ for the company for 40 years.",
+    options: ["will work", "will be working", "will have been working", "works"],
+    correctAnswer: 2
   },
   {
     id: 37,
-    question: "React.useCallback dùng để làm gì?",
-    options: ["Tạo hàm memoized", "Quản lý state", "Tạo ref", "Gọi API"],
-    correctAnswer: 0, // Tạo hàm memoized
+    question: "I ___ my keys. Can you help me look for them?",
+    options: ["lost", "have lost", "was losing", "lose"],
+    correctAnswer: 1
   },
   {
     id: 38,
-    question: "React.useMemo dùng để làm gì?",
-    options: ["Tối ưu giá trị tính toán", "Quản lý state", "Tạo component", "Xử lý sự kiện"],
-    correctAnswer: 0, // Tối ưu giá trị tính toán
+    question: "The train ___ at 7 PM sharp every day.",
+    options: ["leaves", "is leaving", "left", "has left"],
+    correctAnswer: 0
   },
   {
     id: 39,
-    question: "React.forwardRef dùng để làm gì?",
-    options: ["Chuyển ref sang component con", "Tạo state", "Tạo style", "Tối ưu render"],
-    correctAnswer: 0, // Chuyển ref sang component con
+    question: "When I woke up, it ___ heavily.",
+    options: ["rains", "rained", "was raining", "has rained"],
+    correctAnswer: 2
   },
   {
     id: 40,
-    question: "React.createElement dùng để làm gì?",
-    options: ["Tạo JSX", "Tạo DOM element", "Tạo component không dùng JSX", "Quản lý state"],
-    correctAnswer: 2, // Tạo component không dùng JSX
+    question: "This is the best pizza I ___ ever ___ .",
+    options: ["have / eaten", "had / eaten", "ate", "eat"],
+    correctAnswer: 0
   },
-
-  // State và Props trong React
   {
     id: 41,
-    question: "Props trong React là gì?",
-    options: ["Dữ liệu nội bộ", "Dữ liệu truyền từ cha sang con", "Hàm xử lý sự kiện", "Biến toàn cục"],
-    correctAnswer: 1, // Dữ liệu truyền từ cha sang con
+    question: "She ___ French before she moved to Paris.",
+    options: ["never studied", "had never studied", "was never studying", "has never studied"],
+    correctAnswer: 1
   },
   {
     id: 42,
-    question: "State trong React được quản lý ở đâu?",
-    options: ["Trong props", "Trong component", "Trong DOM", "Trong Redux"],
-    correctAnswer: 1, // Trong component
+    question: "We ___ here for more than two hours waiting for you!",
+    options: ["wait", "waited", "are waiting", "have been waiting"],
+    correctAnswer: 3
   },
   {
     id: 43,
-    question: "Hook nào quản lý state trong functional component?",
-    options: ["useState()", "useEffect()", "useRef()", "useContext()"],
-    correctAnswer: 0, // useState()
+    question: "I ___ my best friend next weekend after 5 years!",
+    options: ["will see", "am seeing", "see", "will be seeing"],
+    correctAnswer: 1
   },
   {
     id: 44,
-    question: "Cách cập nhật state trong React?",
-    options: ["state = newValue", "setState(newValue)", "this.state = newValue", "useState(newValue)"],
-    correctAnswer: 1, // setState(newValue)
+    question: "They ___ the house when the fire started.",
+    options: ["clean", "cleaned", "were cleaning", "have cleaned"],
+    correctAnswer: 2
   },
   {
     id: 45,
-    question: "Props trong React có thể thay đổi không?",
-    options: ["Có", "Không", "Chỉ trong class component", "Chỉ trong functional component"],
-    correctAnswer: 1, // Không
+    question: "By 2030, scientists ___ a cure for cancer.",
+    options: ["will find", "will have found", "are finding", "find"],
+    correctAnswer: 1
   },
   {
     id: 46,
-    question: "Cách truyền nhiều props vào component?",
-    options: [
-      "<Component prop1='value1' prop2='value2' />",
-      "<Component props={prop1, prop2} />",
-      "<Component prop1 prop2 />",
-      "<Component {prop1, prop2} />"],
-    correctAnswer: 0, // <Component prop1='value1' prop2='value2' />
+    question: "He ___ tired because he ___ all night.",
+    options: ["is / worked", "was / had worked", "is / has worked", "was / worked"],
+    correctAnswer: 2
   },
   {
     id: 47,
-    question: "DefaultProps trong React dùng để làm gì?",
-    options: ["Tạo state mặc định", "Cung cấp giá trị mặc định cho props", "Tạo component mặc định", "Quản lý sự kiện"],
-    correctAnswer: 1, // Cung cấp giá trị mặc định cho props
+    question: "I ___ my homework yet.",
+    options: ["didn't finish", "haven't finished", "wasn't finishing", "don't finish"],
+    correctAnswer: 1
   },
   {
     id: 48,
-    question: "Cách cập nhật state dựa trên giá trị trước đó?",
-    options: ["setState(prev => prev + 1)", "setState(state + 1)", "state = state + 1", "useState(state + 1)"],
-    correctAnswer: 0, // setState(prev => prev + 1)
+    question: "The sun ___ in the east.",
+    options: ["rises", "is rising", "rose", "has risen"],
+    correctAnswer: 0
   },
   {
     id: 49,
-    question: "Props.children trong React là gì?",
-    options: ["Nội dung giữa thẻ mở và đóng", "Danh sách props", "State của component", "Hàm xử lý sự kiện"],
-    correctAnswer: 0, // Nội dung giữa thẻ mở và đóng
+    question: "While I ___ breakfast, the phone rang.",
+    options: ["had", "was having", "have had", "had had"],
+    correctAnswer: 1
   },
   {
     id: 50,
-    question: "State trong React được cập nhật như thế nào?",
-    options: ["Đồng bộ", "Bất đồng bộ", "Ngay lập tức", "Không bao giờ"],
-    correctAnswer: 1, // Bất đồng bộ
+    question: "By the time we get there, the movie ___ .",
+    options: ["will start", "will have started", "starts", "is starting"],
+    correctAnswer: 1
   },
-
-  // React Lifecycle (Class Components hoặc Effects)
   {
     id: 51,
-    question: "Phương thức nào gọi ngay sau khi component mount trong class component?",
-    options: ["componentDidMount", "componentWillMount", "render", "componentDidUpdate"],
-    correctAnswer: 0, // componentDidMount
+    question: "How long ___ English?",
+    options: ["do you learn", "are you learning", "have you been learning", "did you learn"],
+    correctAnswer: 2
   },
   {
     id: 52,
-    question: "Hook nào thay thế `componentDidMount` trong functional component?",
-    options: ["useState", "useEffect(() => {}, [])", "useCallback", "useRef"],
-    correctAnswer: 1, // useEffect(() => {}, [])
+    question: "She ___ when I called her yesterday.",
+    options: ["sleeps", "slept", "was sleeping", "has slept"],
+    correctAnswer: 2
   },
   {
     id: 53,
-    question: "Phương thức nào gọi trước khi component bị xóa trong class component?",
-    options: ["componentWillUnmount", "componentDidUnmount", "componentWillMount", "componentDidUpdate"],
-    correctAnswer: 0, // componentWillUnmount
+    question: "I ___ to the gym three times a week.",
+    options: ["go", "am going", "went", "have gone"],
+    correctAnswer: 0
   },
   {
     id: 54,
-    question: "useEffect với dependency array rỗng chạy khi nào?",
-    options: ["Mỗi lần render", "Chỉ khi mount", "Chỉ khi unmount", "Khi state thay đổi"],
-    correctAnswer: 1, // Chỉ khi mount
+    question: "They ___ married for 25 years next month.",
+    options: ["will be", "are", "will have been", "have been"],
+    correctAnswer: 2
   },
   {
     id: 55,
-    question: "Phương thức nào gọi sau khi props hoặc state thay đổi trong class component?",
-    options: ["componentDidMount", "componentDidUpdate", "componentWillUnmount", "render"],
-    correctAnswer: 1, // componentDidUpdate
+    question: "When I arrived, he ___ already ___ .",
+    options: ["has / left", "had / left", "was / leaving", "left"],
+    correctAnswer: 1
   },
   {
     id: 56,
-    question: "Cách dọn dẹp trong useEffect?",
-    options: ["Trả về hàm trong useEffect", "Dùng useCallback", "Dùng useRef", "Dùng componentWillUnmount"],
-    correctAnswer: 0, // Trả về hàm trong useEffect
+    question: "I can't play now. I ___ dinner.",
+    options: ["cook", "am cooking", "cooked", "have cooked"],
+    correctAnswer: 1
   },
   {
     id: 57,
-    question: "`shouldComponentUpdate` dùng để làm gì?",
-    options: ["Quản lý state", "Kiểm soát re-render", "Tạo component", "Gọi API"],
-    correctAnswer: 1, // Kiểm soát re-render
+    question: "He ___ in London when he was young.",
+    options: ["lives", "lived", "has lived", "was living"],
+    correctAnswer: 1
   },
   {
     id: 58,
-    question: "useEffect chạy sau giai đoạn nào của React?",
-    options: ["Mount", "Render", "Update", "Tất cả các giai đoạn trên"],
-    correctAnswer: 3, // Tất cả các giai đoạn trên
+    question: "By this time tomorrow, I ___ my exam.",
+    options: ["will finish", "will have finished", "finish", "am finishing"],
+    correctAnswer: 1
   },
   {
     id: 59,
-    question: "Phương thức nào gọi trước render trong class component?",
-    options: ["componentDidMount", "getDerivedStateFromProps", "componentWillUnmount", "componentDidUpdate"],
-    correctAnswer: 1, // getDerivedStateFromProps
+    question: "She ___ for hours when she finally took a break.",
+    options: ["studies", "studied", "was studying", "had been studying"],
+    correctAnswer: 3
   },
   {
     id: 60,
-    question: "useEffect thay thế phương thức nào trong class component?",
-    options: ["componentDidMount", "componentDidUpdate", "componentWillUnmount", "Tất cả các phương thức trên"],
-    correctAnswer: 3, // Tất cả các phương thức trên
+    question: "We ___ this series all week!",
+    options: ["watch", "are watching", "have been watching", "watched"],
+    correctAnswer: 2
   },
-
-  // Styling trong React (CSS thường)
   {
     id: 61,
-    question: "Cách thêm inline style trong React?",
-    options: ["style={{}}", "className={}", "css={}", "style=[]"],
-    correctAnswer: 0, // style={{}}
+    question: "Next year, I ___ in this company for 10 years.",
+    options: ["will work", "will be working", "will have worked", "work"],
+    correctAnswer: 2
   },
   {
     id: 62,
-    question: "CSS Modules trong React hoạt động như thế nào?",
-    options: ["Thêm toàn bộ CSS", "Tạo tên class duy nhất", "Tạo inline style", "Tạo global style"],
-    correctAnswer: 1, // Tạo tên class duy nhất
+    question: "He ___ just ___ his driving test!",
+    options: ["has / passed", "passed", "had / passed", "passes"],
+    correctAnswer: 0
   },
   {
     id: 63,
-    question: "Cách import CSS Module trong React?",
-    options: ["import styles from './style.module.css'", "import './style.css'", "require('./style.css')", "import css from './style.css'"],
-    correctAnswer: 0, // import styles from './style.module.css'
+    question: "When we came in, they ___ cards.",
+    options: ["play", "played", "were playing", "have played"],
+    correctAnswer: 2
   },
   {
     id: 64,
-    question: "Styled-components trong React là gì?",
-    options: ["Thư viện tạo style động", "Công cụ tạo CSS tĩnh", "Thư viện quản lý state", "Công cụ tạo component"],
-    correctAnswer: 0, // Thư viện tạo style động
+    question: "I ___ my wallet somewhere yesterday.",
+    options: ["leave", "left", "was leaving", "have left"],
+    correctAnswer: 1
   },
   {
     id: 65,
-    question: "Cách thêm class động trong React?",
-    options: ["className={condition ? 'class1' : 'class2'}", "class={condition ? 'class1' : 'class2'}", "style={condition ? 'class1' : 'class2'}", "className={{condition: 'class1'}}"],
-    correctAnswer: 0, // className={condition ? 'class1' : 'class2'}
+    question: "At 10 PM tonight, I ___ probably ___ TV.",
+    options: ["will / watch", "will be / watching", "watch", "am watching"],
+    correctAnswer: 1
   },
   {
     id: 66,
-    question: "Cách sử dụng styled-components trong React?",
-    options: ["const StyledDiv = styled.div``", "const StyledDiv = style.div()", "const StyledDiv = css.div``", "const StyledDiv = styled('div')"],
-    correctAnswer: 0, // const StyledDiv = styled.div``
+    question: "She ___ never ___ to Asia before.",
+    options: ["has / been", "had / been", "was", "is"],
+    correctAnswer: 1
   },
   {
     id: 67,
-    question: "Cách thêm global CSS trong React?",
-    options: ["Import CSS vào index.js", "Dùng styled-components", "Dùng inline style", "Dùng CSS Module"],
-    correctAnswer: 0, // Import CSS vào index.js
+    question: "They ___ the report by Friday.",
+    options: ["will finish", "will have finished", "finish", "are finishing"],
+    correctAnswer: 1
   },
   {
     id: 68,
-    question: "Cách sử dụng inline style với object trong React?",
-    options: ["style={{ color: 'red' }}", "style={color: 'red'}", "style='color: red'", "style={{ 'color': red }}"],
-    correctAnswer: 0, // style={{ color: 'red' }}
+    question: "I ___ the book when the power went out.",
+    options: ["read", "was reading", "have read", "had read"],
+    correctAnswer: 1
   },
   {
     id: 69,
-    question: "CSS Module thêm hậu tố vào class để làm gì?",
-    options: ["Tăng bảo mật", "Tránh xung đột tên class", "Tăng hiệu suất", "Tạo style động"],
-    correctAnswer: 1, // Tránh xung đột tên class
+    question: "We ___ friends since kindergarten.",
+    options: ["are", "were", "have been", "had been"],
+    correctAnswer: 2
   },
   {
     id: 70,
-    question: "Cách sử dụng biến trong styled-components?",
-    options: ["props => ({ color: props.color })", "style={props.color}", "color: ${props.color}", "props.color"],
-    correctAnswer: 0, // props => ({ color: props.color })
+    question: "By 2050, people ___ on Mars.",
+    options: ["will live", "will be living", "will have been living", "live"],
+    correctAnswer: 0
   },
   {
     id: 71,
-    question: "Cách thêm style động dựa trên state trong React?",
-    options: ["style={{ color: state.color }}", "className={state.color}", "style={state.color}", "css={{ color: state.color }}"],
-    correctAnswer: 0, // style={{ color: state.color }}
+    question: "Which tense is NOT used for future actions?",
+    options: ["Present Continuous", "Future Simple", "Future Perfect", "Past Perfect"],
+    correctAnswer: 3
   },
   {
     id: 72,
-    question: "Cách tạo style có điều kiện trong React với CSS Modules?",
-    options: ["className={styles[condition ? 'class1' : 'class2']}", "style={condition ? 'class1' : 'class2'}", "css={condition ? 'class1' : 'class2'}", "className={{ condition: styles.class1 }}"],
-    correctAnswer: 0, // className={styles[condition ? 'class1' : 'class2']}
+    question: "He ___ smoking last year.",
+    options: ["quits", "quit", "has quit", "had quit"],
+    correctAnswer: 1
   },
   {
     id: 73,
-    question: "Cách sử dụng pseudo-class như `:hover` trong styled-components?",
-    options: ["&:hover { color: red; }", "hover: { color: red; }", ":hover { color: red; }", "hover { color: red; }"],
-    correctAnswer: 0, // &:hover { color: red; }
+    question: "I ___ here all my life.",
+    options: ["live", "am living", "have lived", "lived"],
+    correctAnswer: 2
   },
   {
     id: 74,
-    question: "Cách thêm style cho component con trong styled-components?",
-    options: ["& div { color: red; }", "div: { color: red; }", "child: { color: red; }", "div { color: red; }"],
-    correctAnswer: 0, // & div { color: red; }
+    question: "While you were away, I ___ your plants.",
+    options: ["water", "watered", "was watering", "have watered"],
+    correctAnswer: 1
   },
   {
     id: 75,
-    question: "Cách áp dụng media query trong styled-components?",
-    options: ["@media (min-width: 768px) { color: red; }", "media: { color: red; }", "@media: { color: red; }", "responsive: { color: red; }"],
-    correctAnswer: 0, // @media (min-width: 768px) { color: red; }
+    question: "They ___ the new office by next spring.",
+    options: ["will open", "will be opening", "will have opened", "open"],
+    correctAnswer: 2
   },
   {
     id: 76,
-    question: "Cách sử dụng CSS thường trong file riêng với React?",
-    options: ["Import file CSS", "Dùng inline style", "Dùng CSS Module", "Dùng styled-components"],
-    correctAnswer: 0, // Import file CSS
+    question: "She ___ for 12 hours straight when she finally slept.",
+    options: ["works", "worked", "was working", "had been working"],
+    correctAnswer: 3
   },
   {
     id: 77,
-    question: "Cách kết hợp nhiều class trong React với CSS Modules?",
-    options: ["className={`${styles.class1} ${styles.class2}`}", "className={[styles.class1, styles.class2]}", "className={{ class1, class2 }}", "className={styles.class1 + styles.class2}"],
-    correctAnswer: 0, // className={`${styles.class1} ${styles.class2}`}
+    question: "My plane ___ at 6 AM tomorrow.",
+    options: ["leaves", "is leaving", "will leave", "left"],
+    correctAnswer: 0
   },
   {
     id: 78,
-    question: "Cách thêm style cho toàn bộ ứng dụng React với CSS thường?",
-    options: ["Import CSS vào index.js", "Dùng inline style", "Dùng CSS Module", "Dùng styled-components"],
-    correctAnswer: 0, // Import CSS vào index.js
+    question: "I ___ him since we were children.",
+    options: ["know", "knew", "have known", "had known"],
+    correctAnswer: 2
   },
   {
     id: 79,
-    question: "Cách sử dụng inline style với giá trị động trong React?",
-    options: ["style={{ width: `${value}px` }}", "style={width: value}px", "style='width: value'", "style={{ width: value px }}"],
-    correctAnswer: 0, // style={{ width: `${value}px` }}
+    question: "When I got home, dinner ___ already ___ .",
+    options: ["was / prepared", "had been / prepared", "has been / prepared", "is / prepared"],
+    correctAnswer: 1
   },
   {
     id: 80,
-    question: "Cách áp dụng style cho một thẻ cụ thể trong CSS Module?",
-    options: ["styles.tagName", "style.tagName", "css.tagName", "tagName.style"],
-    correctAnswer: 0, // styles.tagName
+    question: "The kids ___ in the garden all morning.",
+    options: ["play", "played", "were playing", "have been playing"],
+    correctAnswer: 3
   },
   {
     id: 81,
-    question: "Cách tạo style responsive với CSS thường trong React?",
-    options: ["Dùng media queries trong file CSS", "Dùng inline style", "Dùng CSS Module với media", "Dùng styled-components"],
-    correctAnswer: 0, // Dùng media queries trong file CSS
+    question: "By the time the meeting starts, I ___ the presentation.",
+    options: ["will finish", "will have finished", "finish", "am finishing"],
+    correctAnswer: 1
   },
   {
     id: 82,
-    question: "Cách sử dụng keyframes trong styled-components?",
-    options: ["const animation = keyframes``", "const animation = animation``", "const animation = css.keyframes``", "const animation = styled.keyframes``"],
-    correctAnswer: 0, // const animation = keyframes``
+    question: "He ___ never ___ sushi before last night.",
+    options: ["has / tried", "had / tried", "tried", "tries"],
+    correctAnswer: 1
   },
   {
     id: 83,
-    question: "Cách thêm style cho một class trong file CSS thường trong React?",
-    options: [".className { color: red; }", "className: { color: red; }", "className { color: red }", ".className: { color: red; }"],
-    correctAnswer: 0, // .className { color: red; }
+    question: "I ___ my homework while she was cooking.",
+    options: ["do", "did", "was doing", "have done"],
+    correctAnswer: 2
   },
   {
     id: 84,
-    question: "Cách sử dụng style động với props trong styled-components?",
-    options: ["color: ${props => props.color};", "color: props.color;", "color: {props.color};", "color: props => props.color;"],
-    correctAnswer: 0, // color: ${props => props.color};
+    question: "Tomorrow at this time, we ___ on the plane.",
+    options: ["will sit", "will be sitting", "sit", "are sitting"],
+    correctAnswer: 1
   },
   {
     id: 85,
-    question: "Cách thêm style cho một ID trong file CSS thường trong React?",
-    options: ["#idName { color: red; }", "idName: { color: red; }", "#idName: { color: red; }", "idName { color: red; }"],
-    correctAnswer: 0, // #idName { color: red; }
+    question: "She ___ three languages fluently.",
+    options: ["speaks", "is speaking", "spoke", "has spoken"],
+    correctAnswer: 0
   },
   {
     id: 86,
-    question: "Cách sử dụng CSS Module với nhiều class trong một thẻ?",
-    options: ["className={`${styles.class1} ${styles.class2}`}", "className={[styles.class1, styles.class2]}", "className={styles.class1 + styles.class2}", "className={{ class1, class2 }}"],
-    correctAnswer: 0, // className={`${styles.class1} ${styles.class2}`}
+    question: "They ___ in that apartment for 8 years before buying a house.",
+    options: ["lived", "were living", "had lived", "have lived"],
+    correctAnswer: 2
   },
   {
     id: 87,
-    question: "Cách áp dụng style cho thẻ con trong CSS Module?",
-    options: [".parent .child { color: red; }", "parent:child { color: red; }", ".parent:child { color: red; }", "child { color: red; }"],
-    correctAnswer: 0, // .parent .child { color: red; }
+    question: "I ___ you the news as soon as I hear it.",
+    options: ["tell", "will tell", "am telling", "told"],
+    correctAnswer: 1
   },
   {
     id: 88,
-    question: "Cách thêm animation với CSS thường trong React?",
-    options: ["Dùng @keyframes trong file CSS", "Dùng inline style", "Dùng CSS Module", "Dùng styled-components"],
-    correctAnswer: 0, // Dùng @keyframes trong file CSS
+    question: "When I was younger, I ___ football every day.",
+    options: ["play", "played", "was playing", "have played"],
+    correctAnswer: 1
   },
   {
     id: 89,
-    question: "Cách sử dụng inline style với nhiều thuộc tính trong React?",
-    options: ["style={{ color: 'red', fontSize: '16px' }}", "style={color: 'red', fontSize: '16px'}", "style='color: red; fontSize: 16px'", "style={{ color: red, fontSize: 16px }}"],
-    correctAnswer: 0, // style={{ color: 'red', fontSize: '16px' }}
+    question: "By next summer, I ___ my degree.",
+    options: ["will complete", "will have completed", "complete", "am completing"],
+    correctAnswer: 1
   },
   {
     id: 90,
-    question: "Cách áp dụng style cho pseudo-element trong styled-components?",
-    options: ["&::before { content: ''; }", "before: { content: ''; }", "::before { content: ''; }", "before { content: ''; }"],
-    correctAnswer: 0, // &::before { content: ''; }
+    question: "He ___ for the bus when it started raining.",
+    options: ["waits", "waited", "was waiting", "has waited"],
+    correctAnswer: 2
   },
-
   {
     id: 91,
-    question: "Cách sử dụng global styles với styled-components?",
-    options: ["createGlobalStyle``", "globalStyle``", "css.global``", "styled.global``"],
-    correctAnswer: 0, // createGlobalStyle``
+    question: "I ___ this book since last month.",
+    options: ["read", "am reading", "have been reading", "was reading"],
+    correctAnswer: 2
   },
   {
     id: 92,
-    question: "Cách thêm style cho một thẻ HTML cụ thể trong CSS Module?",
-    options: ["styles.tagName", "style.tagName", "css.tagName", "tagName.style"],
-    correctAnswer: 0, // styles.tagName
+    question: "The movie ___ at 8 PM tonight.",
+    options: ["starts", "is starting", "will start", "started"],
+    correctAnswer: 0
   },
   {
     id: 93,
-    question: "Cách sử dụng CSS thường để tạo flexbox trong React?",
-    options: ["display: flex;", "display: block;", "display: inline;", "display: grid;"],
-    correctAnswer: 0, // display: flex;
+    question: "She ___ already ___ three cups of coffee today.",
+    options: ["has / drunk", "drank", "had / drunk", "is drinking"],
+    correctAnswer: 0
   },
   {
     id: 94,
-    question: "Cách thêm style động dựa trên props trong CSS Module?",
-    options: ["className={styles[props.condition ? 'class1' : 'class2']}", "style={props.condition ? 'class1' : 'class2'}", "css={props.condition ? 'class1' : 'class2'}", "className={{ props.condition: styles.class1 }}"],
-    correctAnswer: 0, // className={styles[props.condition ? 'class1' : 'class2']}
+    question: "While I ___ the dishes, I dropped a glass.",
+    options: ["wash", "washed", "was washing", "have washed"],
+    correctAnswer: 2
   },
   {
     id: 95,
-    question: "Cách sử dụng inline style với camelCase trong React?",
-    options: ["style={{ backgroundColor: 'red' }}", "style={{ background-color: 'red' }}", "style='backgroundColor: red'", "style={{ backgroundColor: red }}"],
-    correctAnswer: 0, // style={{ backgroundColor: 'red' }}
+    question: "By 2040, humans ___ colonies on Mars.",
+    options: ["will establish", "will have established", "establish", "are establishing"],
+    correctAnswer: 1
   },
   {
     id: 96,
-    question: "Cách thêm style cho một thẻ con trong file CSS thường?",
-    options: [".parent .child { color: red; }", "parent:child { color: red; }", ".parent:child { color: red; }", "child { color: red; }"],
-    correctAnswer: 0, // .parent .child { color: red; }
+    question: "We ___ friends for over 20 years.",
+    options: ["are", "were", "have been", "had been"],
+    correctAnswer: 2
   },
   {
     id: 97,
-    question: "Cách sử dụng CSS thường để tạo grid trong React?",
-    options: ["display: grid;", "display: flex;", "display: block;", "display: inline;"],
-    correctAnswer: 0, // display: grid;
+    question: "I ___ my keys. Have you seen them?",
+    options: ["lost", "have lost", "was losing", "lose"],
+    correctAnswer: 1
   },
   {
     id: 98,
-    question: "Cách thêm style cho một pseudo-class trong CSS Module?",
-    options: [".className:hover { color: red; }", "className:hover { color: red; }", ".className::hover { color: red; }", ":hover { color: red; }"],
-    correctAnswer: 0, // .className:hover { color: red; }
+    question: "He ___ in London when the war started.",
+    options: ["lives", "lived", "was living", "has lived"],
+    correctAnswer: 2
   },
   {
     id: 99,
-    question: "Cách sử dụng styled-components với nested styles?",
-    options: ["& div { color: red; }", "div: { color: red; }", "child: { color: red; }", "div { color: red; }"],
-    correctAnswer: 0, // & div { color: red; }
+    question: "Next year, she ___ here for a decade.",
+    options: ["will work", "will be working", "will have been working", "works"],
+    correctAnswer: 2
   },
   {
     id: 100,
-    question: "Cách thêm style cho một thẻ với ID trong CSS Module?",
-    options: ["styles.#idName", "styles.idName", "style.#idName", "css.#idName"],
-    correctAnswer: 1, // styles.idName
-  },
+    question: "I ___ never ___ such a beautiful sunset before.",
+    options: ["have / seen", "had / seen", "saw", "see"],
+    correctAnswer: 1
+  }
 ];
 
 export default questions;

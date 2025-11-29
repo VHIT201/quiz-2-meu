@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   CheckCircle,
   Circle,
@@ -15,6 +15,68 @@ export default function Quiz() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState(60 * 60);
+  const [tabSwitchCount, setTabSwitchCount] = useState(0);
+  const [isViolationSubmitted, setIsViolationSubmitted] = useState(false); // Flag để tránh submit trùng lặp
+
+  // Di chuyển handleSubmit lên trên để tránh dependency issues
+  const handleSubmit = useCallback(async () => {
+    setSubmitted(true);
+
+    const scoreValue = answers?.reduce((total, answer, idx) => {
+      return answer === questions[idx].correctAnswer ? total + 1 : total;
+    }, 0) || 0;
+
+    const payload = {
+      name: localStorage.getItem("quiz_user_name") || "Ẩn danh",
+      answers: answers || Array(questions.length).fill(null),
+      score: scoreValue,
+    };
+
+    try {
+      await axios.post("/api/submit", payload);
+      console.log("Gửi Google Sheet thành công ✅");
+    } catch (err) {
+      console.error("Gửi Google Sheet thất bại ❌:", err);
+    }
+  }, [answers]);
+
+  // Hàm xử lý submit do vi phạm - sau đó reset về trang chủ
+  const handleViolationSubmit = useCallback(async (violationType = "vi phạm") => {
+    // Tránh gọi multiple lần
+    if (isViolationSubmitted) return;
+    setIsViolationSubmitted(true);
+    
+    // Submit bài với điểm 0 do vi phạm
+    const payload = {
+      name: localStorage.getItem("quiz_user_name") || "Ẩn danh",
+      answers: answers || Array(questions.length).fill(null),
+      score: 0, // Điểm 0 do vi phạm
+      violation: true,
+      violationType: violationType
+    };
+
+    try {
+      await axios.post("/api/submit", payload);
+      console.log("Gửi Google Sheet (vi phạm) thành công ✅");
+    } catch (err) {
+      console.error("Gửi Google Sheet (vi phạm) thất bại ❌:", err);
+    }
+
+    // Hiển thị thông báo cuối cùng
+    alert(`🚫 Bài thi đã bị hủy do ${violationType}. Bạn sẽ được chuyển về trang chủ.`);
+    
+    // Xóa toàn bộ dữ liệu localStorage
+    localStorage.removeItem("quiz_answers");
+    localStorage.removeItem("quiz_submitted");
+    localStorage.removeItem("quiz_tab_switch_count");
+    localStorage.removeItem("quiz_time_left");
+    localStorage.removeItem("quiz_user_name");
+    
+    // Delay nhỏ rồi reload trang để về trang chủ
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  }, [answers, isViolationSubmitted]);
 
   // Cập nhật thời gian còn lại mỗi giây và lưu vào localStorage
   useEffect(() => {
@@ -24,7 +86,7 @@ export default function Quiz() {
     }
 
     if (timeLeft === 0) {
-      handleSubmit(); // Gọi hàm nộp bài khi hết thời gian
+      handleViolationSubmit("hết thời gian"); // Gọi hàm nộp bài khi hết thời gian
       return;
     }
 
@@ -37,7 +99,7 @@ export default function Quiz() {
     }, 1000);
 
     return () => clearInterval(interval); // Dọn dẹp interval khi component unmount
-  }, [timeLeft]);
+  }, [timeLeft, handleViolationSubmit]);
 
   // Định dạng thời gian đếm ngược (mm:ss)
   const formatTime = (seconds) => {
@@ -52,6 +114,7 @@ export default function Quiz() {
   useEffect(() => {
     const savedAnswers = localStorage.getItem("quiz_answers");
     const savedSubmitted = localStorage.getItem("quiz_submitted");
+    const savedTabSwitchCount = localStorage.getItem("quiz_tab_switch_count");
 
     if (savedAnswers) {
       setAnswers(JSON.parse(savedAnswers));
@@ -61,6 +124,10 @@ export default function Quiz() {
 
     if (savedSubmitted === "true") {
       setSubmitted(true);
+    }
+
+    if (savedTabSwitchCount) {
+      setTabSwitchCount(parseInt(savedTabSwitchCount, 10));
     }
 
     setLoading(false);
@@ -95,14 +162,53 @@ export default function Quiz() {
   // }, []);
 
   useEffect(() => {
+    let lastViolationTime = 0;
+    
     const handleBlur = () => {
-      alert("Không được rời khỏi trang! Bạn đã vi phạm quy định.");
-      // Optionally: window.location.href = "/logout" hoặc show modal
+      // Dừng hoàn toàn nếu đã submit vi phạm hoặc đã nộp bài
+      if (isViolationSubmitted || submitted) return;
+      
+      const now = Date.now();
+      // Tránh duplicate event trong vòng 100ms
+      if (now - lastViolationTime < 100) return;
+      lastViolationTime = now;
+      
+      setTabSwitchCount(prev => {
+        // Nếu đã >= 5, không đếm nữa
+        if (prev >= 5) return prev;
+        
+        const newCount = prev + 1;
+        if (newCount >= 5) {
+          handleViolationSubmit(`chuyển tab ${newCount} lần`);
+          return newCount;
+        }
+        alert(`Cảnh báo ${newCount}/5: Không được rời khỏi trang! Bạn đã vi phạm quy định.`);
+        return newCount;
+      });
     };
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
-        alert("Bạn đang chuyển tab! Hành động này không được phép.");
+        // Dừng hoàn toàn nếu đã submit vi phạm hoặc đã nộp bài
+        if (isViolationSubmitted || submitted) return;
+        
+        const now = Date.now();
+        // Tránh duplicate event trong vòng 100ms
+        if (now - lastViolationTime < 100) return;
+        lastViolationTime = now;
+        
+        setTabSwitchCount(prev => {
+          // Nếu đã >= 5, không đếm nữa
+          if (prev >= 5) return prev;
+          
+          const newCount = prev + 1;
+          if (newCount >= 5) {
+            handleViolationSubmit(`ẩn tab ${newCount} lần`);
+            return newCount;
+          }
+          alert(`Cảnh báo ${newCount}/5: Bạn đang chuyển tab! Hành động này không được phép.`);
+          return newCount;
+        });
       }
     };
 
@@ -113,11 +219,14 @@ export default function Quiz() {
       window.removeEventListener("blur", handleBlur);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, []);
+  }, [handleViolationSubmit, isViolationSubmitted, submitted]);
 
   useEffect(() => {
     // Chặn F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S
     const handleKeyDown = (e) => {
+      // Dừng tracking nếu đã nộp bài
+      if (submitted) return;
+      
       if (
         e.key === "F12" ||
         (e.ctrlKey && e.shiftKey && e.key === "I") ||
@@ -131,11 +240,15 @@ export default function Quiz() {
 
     // Chặn chuột phải (context menu)
     const handleContextMenu = (e) => {
+      // Dừng tracking nếu đã nộp bài
+      if (submitted) return;
       e.preventDefault();
     };
 
     // Chặn hành vi copy
     const handleCopy = (e) => {
+      // Dừng tracking nếu đã nộp bài
+      if (submitted) return;
       e.preventDefault();
     };
 
@@ -148,10 +261,13 @@ export default function Quiz() {
       document.removeEventListener("contextmenu", handleContextMenu);
       document.removeEventListener("copy", handleCopy);
     };
-  }, []);
+  }, [submitted]);
 
   useEffect(() => {
     const checkDevTools = () => {
+      // Dừng tracking nếu đã nộp bài
+      if (submitted) return;
+      
       const threshold = 160; // ngưỡng chiều cao bất thường
       if (window.outerHeight - window.innerHeight > threshold) {
         alert("Vui lòng không mở DevTools!");
@@ -161,7 +277,188 @@ export default function Quiz() {
 
     const interval = setInterval(checkDevTools, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [submitted]);
+
+  // Chặn Selection/Highlight Text (Cơ chế 1)
+  useEffect(() => {
+    const handleSelectStart = (e) => {
+      // Dừng tracking nếu đã nộp bài
+      if (submitted) return;
+      e.preventDefault();
+      return false;
+    };
+
+    const handleMouseDown = (e) => {
+      // Dừng tracking nếu đã nộp bài
+      if (submitted) return;
+      if (e.detail > 1) { // Double click or more
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    document.addEventListener('selectstart', handleSelectStart);
+    document.addEventListener('mousedown', handleMouseDown);
+    
+    // Chỉ thêm CSS khi chưa nộp bài
+    let style;
+    if (!submitted) {
+      document.onselectstart = () => false; // IE compatibility
+      document.onmousedown = () => false; // IE compatibility
+
+      // CSS to prevent text selection
+      style = document.createElement('style');
+      style.textContent = `
+        * {
+          -webkit-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+          user-select: none !important;
+          -webkit-touch-callout: none !important;
+          -webkit-tap-highlight-color: transparent !important;
+        }
+        input, textarea {
+          -webkit-user-select: text !important;
+          -moz-user-select: text !important;
+          -ms-user-select: text !important;
+          user-select: text !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    return () => {
+      document.removeEventListener('selectstart', handleSelectStart);
+      document.removeEventListener('mousedown', handleMouseDown);
+      document.onselectstart = null;
+      document.onmousedown = null;
+      if (style && style.parentNode) {
+        style.parentNode.removeChild(style);
+      }
+    };
+  }, [submitted]);
+
+  // Chặn Drag & Drop (Cơ chế 2)
+  useEffect(() => {
+    const handleDragStart = (e) => {
+      // Dừng tracking nếu đã nộp bài
+      if (submitted) return;
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    };
+
+    const handleDrop = (e) => {
+      // Dừng tracking nếu đã nộp bài
+      if (submitted) return;
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    };
+
+    const handleDragOver = (e) => {
+      // Dừng tracking nếu đã nộp bài
+      if (submitted) return;
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    };
+
+    document.addEventListener('dragstart', handleDragStart);
+    document.addEventListener('drop', handleDrop);
+    document.addEventListener('dragover', handleDragOver);
+    document.addEventListener('dragleave', handleDragStart);
+    document.addEventListener('dragend', handleDragStart);
+    document.addEventListener('dragenter', handleDragStart);
+
+    return () => {
+      document.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('drop', handleDrop);
+      document.removeEventListener('dragover', handleDragOver);
+      document.removeEventListener('dragleave', handleDragStart);
+      document.removeEventListener('dragend', handleDragStart);
+      document.removeEventListener('dragenter', handleDragStart);
+    };
+  }, [submitted]);
+
+  // Chặn Print Screen (Cơ chế 4)
+  useEffect(() => {
+    const handlePrintScreen = (e) => {
+      // Dừng hoàn toàn nếu đã submit vi phạm hoặc đã nộp bài
+      if (isViolationSubmitted || submitted) return;
+      
+      if (e.key === 'PrintScreen') {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Clear clipboard
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText('').catch(() => {});
+        }
+        
+        alert('🚫 Chức năng chụp màn hình đã bị vô hiệu hóa!');
+        
+        // Đếm vi phạm
+        setTabSwitchCount(prev => {
+          // Nếu đã >= 5, không đếm nữa
+          if (prev >= 5) return prev;
+          
+          const newCount = prev + 1;
+          if (newCount >= 5) {
+            handleViolationSubmit(`chụp màn hình vi phạm ${newCount} lần`);
+          }
+          return newCount;
+        });
+        
+        return false;
+      }
+
+      // Chặn Ctrl+Shift+S (Save as)
+      if (e.ctrlKey && e.shiftKey && e.key === 'S') {
+        e.preventDefault();
+        e.stopPropagation();
+        alert('🚫 Không được phép lưu trang!');
+        return false;
+      }
+
+      // Chặn Alt+Print (Alt + PrtSc)
+      if (e.altKey && e.key === 'PrintScreen') {
+        e.preventDefault();
+        e.stopPropagation();
+        alert('🚫 Không được phép chụp cửa sổ hiện tại!');
+        return false;
+      }
+    };
+
+    // Detect screenshot via clipboard change (advanced)
+    const handlePaste = async (e) => {
+      try {
+        const clipboardItems = await navigator.clipboard.read();
+        for (const clipboardItem of clipboardItems) {
+          for (const type of clipboardItem.types) {
+            if (type.startsWith('image/')) {
+              e.preventDefault();
+              alert('🚫 Phát hiện hình ảnh trong clipboard! Không được phép.');
+              navigator.clipboard.writeText(''); // Clear clipboard
+              return false;
+            }
+          }
+        }
+      } catch (err) {
+        // Clipboard access denied or not supported
+      }
+    };
+
+    document.addEventListener('keydown', handlePrintScreen);
+    document.addEventListener('keyup', handlePrintScreen);
+    document.addEventListener('paste', handlePaste);
+
+    return () => {
+      document.removeEventListener('keydown', handlePrintScreen);
+      document.removeEventListener('keyup', handlePrintScreen);
+      document.removeEventListener('paste', handlePaste);
+    };
+  }, [handleViolationSubmit, isViolationSubmitted, submitted]);
 
   // Lưu vào localStorage khi answers thay đổi
   useEffect(() => {
@@ -175,31 +472,28 @@ export default function Quiz() {
     localStorage.setItem("quiz_submitted", submitted);
   }, [submitted]);
 
+  // Lưu số lần chuyển tab
+  useEffect(() => {
+    localStorage.setItem("quiz_tab_switch_count", tabSwitchCount);
+  }, [tabSwitchCount]);
+
   const handleSelect = (questionIndex, optionIndex) => {
     const updated = [...answers];
     updated[questionIndex] = optionIndex;
     setAnswers(updated);
   };
 
-  const handleSubmit = async () => {
-    setSubmitted(true);
-
-    const scoreValue = answers.reduce((total, answer, idx) => {
-      return answer === questions[idx].correctAnswer ? total + 1 : total;
-    }, 0);
-
-    const payload = {
-      name: localStorage.getItem("quiz_user_name") || "Ẩn danh",
-      answers,
-      score: scoreValue,
-    };
-
-    try {
-      await axios.post("/api/submit", payload);
-      console.log("Gửi Google Sheet thành công ✅");
-    } catch (err) {
-      console.error("Gửi Google Sheet thất bại ❌:", err);
-    }
+  // Hàm xóa toàn bộ data và trở về trang chủ
+  const handleGoHome = () => {
+    // Xóa toàn bộ dữ liệu localStorage
+    localStorage.removeItem("quiz_answers");
+    localStorage.removeItem("quiz_submitted");
+    localStorage.removeItem("quiz_tab_switch_count");
+    localStorage.removeItem("quiz_time_left");
+    localStorage.removeItem("quiz_user_name");
+    
+    // Reload trang để trở về trang chủ (NameForm)
+    window.location.reload();
   };
 
   const score = answers?.reduce((total, answer, idx) => {
@@ -223,6 +517,17 @@ export default function Quiz() {
     return (
       <div className="text-center py-20 text-pink-600 font-medium">
         Đang tải dữ liệu...
+      </div>
+    );
+  }
+
+  // Ngăn render nếu đã vi phạm và đang xử lý
+  if (isViolationSubmitted) {
+    return (
+      <div className="text-center py-20 text-red-600 font-medium">
+        <div className="text-2xl mb-4">🚫</div>
+        <div>Đang xử lý vi phạm...</div>
+        <div className="text-sm mt-2">Bạn sẽ được chuyển về trang chủ</div>
       </div>
     );
   }
@@ -262,10 +567,25 @@ export default function Quiz() {
               Thời gian còn lại: {formatTime(timeLeft)}
             </span>
           </div> */}
-          <div className="fixed top-5 right-5 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-xl hover:shadow-[0_0_15px_4px_rgba(59,130,246,0.5)] transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 animate-heartbeat">
-            <span className="font-bold text-base tracking-wide drop-shadow-sm">
-              Thời gian còn lại: {formatTime(timeLeft)}
-            </span>
+          <div className="fixed top-5 right-5 space-y-3">
+            <div className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-xl hover:shadow-[0_0_15px_4px_rgba(59,130,246,0.5)] transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 animate-heartbeat">
+              <span className="font-bold text-base tracking-wide drop-shadow-sm">
+                Thời gian còn lại: {formatTime(timeLeft)}
+              </span>
+            </div>
+            {tabSwitchCount > 0 && (
+              <div className={`px-4 py-2 rounded-lg shadow-xl transition-all duration-300 ${
+                tabSwitchCount >= 4 
+                  ? 'bg-red-600 animate-pulse' 
+                  : tabSwitchCount >= 2 
+                    ? 'bg-orange-500' 
+                    : 'bg-yellow-500'
+              } text-white`}>
+                <span className="font-bold text-sm">
+                  ⚠️ Cảnh báo: {tabSwitchCount}/5 lần vi phạm
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -360,16 +680,10 @@ export default function Quiz() {
               </p>
             </div>
             <button
-              onClick={() => {
-                setAnswers(Array(questions.length).fill(null));
-                setSubmitted(false);
-                // localStorage.removeItem("quiz_answers");
-                localStorage.removeItem("quiz_submitted");
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
+              onClick={handleGoHome}
               className="mt-6 bg-white text-pink-600 px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 hover:scale-105"
             >
-              Làm lại 🔄
+              Trở về trang chủ 🏠
             </button>
           </div>
         )}
